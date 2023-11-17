@@ -1,8 +1,10 @@
 package br.com.teste;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.regions.providers.AwsRegionProvider;
 import software.amazon.awssdk.services.kms.KmsClient;
 
@@ -10,10 +12,10 @@ import software.amazon.awssdk.services.kms.KmsClient;
 public class KmsConfiguration {
 
     @Bean
-    KmsClient getKmsClient(AwsCredentialsProvider credentialsProvider, AwsRegionProvider regionProvider) {
+    KmsClient getKmsClient(AwsCredentialsProvider credentialsProvider, @Value("${spring.cloud.aws.region}") String region) {
         var kmsClient = KmsClient.builder()
                                 .credentialsProvider(credentialsProvider)
-                                .region(regionProvider.getRegion())
+                                .region(Region.of(region))
                                 .build();
         return kmsClient;
     }
