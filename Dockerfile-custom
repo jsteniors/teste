@@ -1,0 +1,8 @@
+FROM openjdk:17-alpine
+WORKDIR /app
+
+COPY target/teste.jar .
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "teste.jar", "-Dspring.profiles.active=local"]
